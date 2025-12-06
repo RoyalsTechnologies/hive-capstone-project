@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  ml-api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/app/models
+      - ./app:/app/app
+    environment:
+      - DEBUG=false
+    restart: unless-stopped
