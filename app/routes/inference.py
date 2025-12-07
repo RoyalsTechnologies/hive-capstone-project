@@ -118,12 +118,3 @@ async def predict_batch(request: BatchPredictionRequest):
         raise HTTPException(
             status_code=500, detail="An internal error occurred. Please try again later."
         )
-
-
-@router.get("/models")
-async def list_models():
-    """List available models"""
-    return {
-        "available_models": ModelService.list_models(),
-        "models_loaded": ModelService.are_models_loaded(),
-    }

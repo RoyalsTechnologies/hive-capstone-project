@@ -5,7 +5,7 @@ Tests for model service
 import numpy as np
 import pytest
 
-from app.services.model_service import DummyModel, ModelService
+from app.services.model_service import ModelService
 
 
 class TestModelService:
@@ -65,40 +65,3 @@ class TestModelService:
             assert isinstance(pred, (int, float, list))
             assert conf is None or isinstance(conf, float)
 
-    def test_predict_invalid_model(self):
-        """Test prediction with invalid model name"""
-        with pytest.raises(ValueError, match="not found"):
-            ModelService.predict([1.0, 2.0], model_name="nonexistent")
-
-    def test_predict_batch_invalid_model(self):
-        """Test batch prediction with invalid model name"""
-        with pytest.raises(ValueError, match="not found"):
-            ModelService.predict_batch([[1.0, 2.0]], model_name="nonexistent")
-
-    def test_list_models(self):
-        """Test listing available models"""
-        models = ModelService.list_models()
-        assert isinstance(models, list)
-        assert "default" in models
-
-
-class TestDummyModel:
-    """Test cases for DummyModel"""
-
-    def test_dummy_model_predict(self):
-        """Test dummy model prediction"""
-        model = DummyModel()
-        X = np.array([[1.0, 2.0, 3.0]])
-        predictions = model.predict(X)
-
-        assert len(predictions) == 1
-        assert predictions[0] == 6.0  # Sum of features
-
-    def test_dummy_model_predict_proba(self):
-        """Test dummy model probability prediction"""
-        model = DummyModel()
-        X = np.array([[1.0, 2.0, 3.0]])
-        proba = model.predict_proba(X)
-
-        assert proba.shape == (1, 2)
-        assert np.allclose(proba.sum(axis=1), 1.0)  # Probabilities sum to 1

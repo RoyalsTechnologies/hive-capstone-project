@@ -291,8 +291,3 @@ class ModelService:
             results.append((str(pred), conf))
         
         return results
-
-    @classmethod
-    def list_models(cls) -> List[str]:
-        """List all available model names"""
-        return ["default"]
